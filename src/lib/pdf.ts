@@ -36,7 +36,7 @@ export function exportNoteToPDF(title: string, content: string, meta?: string) {
   // Footer
   doc.setFontSize(9);
   doc.setTextColor(140);
-  doc.text('PsychRef · Educational reference only — not a clinical record.', margin, pageHeight - 24);
+  doc.text('PsyDx · Educational reference only — not a clinical record.', margin, pageHeight - 24);
 
   doc.save(`${(title || 'note').replace(/[^a-z0-9-_]+/gi, '_')}.pdf`);
 }

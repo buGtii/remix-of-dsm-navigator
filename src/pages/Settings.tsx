@@ -163,7 +163,7 @@ export default function SettingsPage() {
       <Section title="About">
         <Row label="Version 1.0.0" icon={Info} />
         <Link to="/privacy"><Row label="Privacy Policy" icon={Shield} /></Link>
-        <p className="mt-2 text-xs text-muted-foreground">PsychRef summarizes DSM-5-TR concepts for educational use. Content is paraphrased and is not a substitute for professional evaluation.</p>
+        <p className="mt-2 text-xs text-muted-foreground">PsyDx summarizes DSM-5-TR concepts for educational use. Content is paraphrased and is not a substitute for professional evaluation.</p>
       </Section>
     </div>
   );

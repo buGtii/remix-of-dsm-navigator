@@ -20,7 +20,7 @@ export default function Privacy() {
 
       <div className="mt-6 space-y-5 text-sm leading-relaxed text-foreground/90">
         <Section title="Overview">
-          PsychRef · DSM-5-TR is an educational reference tool. We respect your privacy and collect the
+          PsyDx · DSM-5 is an educational reference tool. We respect your privacy and collect the
           minimum data needed to make the app useful. The reference content itself works fully offline.
         </Section>
 
@@ -52,12 +52,12 @@ export default function Privacy() {
         </Section>
 
         <Section title="No medical advice">
-          PsychRef is for education and clinical reference. It is not a diagnostic tool and does not
+          PsyDx is for education and clinical reference. It is not a diagnostic tool and does not
           replace professional evaluation, diagnosis, or treatment.
         </Section>
 
         <Section title="Contact">
-          For privacy questions, email <span className="text-primary">privacy@psychref.app</span>.
+          For privacy questions, email <span className="text-primary">privacy@psydx.app</span>.
         </Section>
       </div>
     </div>

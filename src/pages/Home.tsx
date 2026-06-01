@@ -22,7 +22,7 @@ export default function Home() {
         <div className="relative">
           <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] opacity-80">
             <Brain className="h-3.5 w-3.5" />
-            <span>PsychRef · DSM-5-TR</span>
+            <span>PsyDx · DSM-5</span>
           </div>
           <h1 className="mt-3 font-display text-3xl font-semibold leading-[1.1]">
             A calm, clinical reference for the mind.
