@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 
-export type Role = 'student' | 'clinician' | 'researcher' | 'patient';
+export type Role = 'student' | 'clinician' | 'therapist' | 'researcher';
 
 export const ROLE_META: Record<Role, { label: string; tagline: string; emoji: string }> = {
-  student: { label: 'Student', tagline: 'Learn DSM with quizzes & cases', emoji: '🎓' },
-  clinician: { label: 'Clinician', tagline: 'Decision support & checklists', emoji: '🩺' },
-  researcher: { label: 'Researcher', tagline: 'Data, filters & export', emoji: '🔬' },
-  patient: { label: 'General user', tagline: 'Plain-language guides', emoji: '🌿' },
+  clinician: { label: 'Clinician', tagline: 'DSM-5 guided assessment & decision support', emoji: '🩺' },
+  therapist: { label: 'Therapist', tagline: 'Case conceptualization & therapy support', emoji: '🧠' },
+  researcher: { label: 'Researcher', tagline: 'DSM exploration, data & export', emoji: '🔬' },
+  student: { label: 'Student', tagline: 'Learn DSM with study tools & cases', emoji: '🎓' },
 };
 
 const KEY = 'psychref:role';
 
 export function getRole(): Role {
-  const v = (typeof window !== 'undefined' && localStorage.getItem(KEY)) as Role | null;
+  const raw = (typeof window !== 'undefined' && localStorage.getItem(KEY)) || '';
+  // Backward-compat: legacy 'patient' role maps to 'therapist'.
+  const v = raw === 'patient' ? 'therapist' : (raw as Role);
   return v && v in ROLE_META ? v : 'student';
 }
 export function setRole(role: Role) {
@@ -32,4 +34,51 @@ export function useRole(): [Role, (r: Role) => void] {
     };
   }, []);
   return [r, (next) => { setRole(next); setR(next); }];
+}
+
+// ---------- Permissions ----------
+// Diagnostic-support tools are clinician-only by policy.
+// PsyDx is a DSM-5 helper; final diagnosis always rests with the clinician.
+export type Capability =
+  | 'diagnostic.checklist'       // DSM criteria checklist
+  | 'diagnostic.differential'    // Side-by-side differential comparison
+  | 'diagnostic.symptomMatch'    // Symptom → DSM criteria matching (AI Explorer)
+  | 'diagnostic.risk'            // Risk / safety screen
+  | 'clinical.notes'             // Structured clinical documentation
+  | 'therapy.caseConcept'        // Case conceptualization
+  | 'research.export'            // Bulk data export
+  | 'education.study';           // Study mode / flashcards / cases
+
+const CAPS: Record<Role, Capability[]> = {
+  clinician: [
+    'diagnostic.checklist',
+    'diagnostic.differential',
+    'diagnostic.symptomMatch',
+    'diagnostic.risk',
+    'clinical.notes',
+    'therapy.caseConcept',
+    'research.export',
+    'education.study',
+  ],
+  therapist: [
+    'therapy.caseConcept',
+    'clinical.notes',
+    'education.study',
+  ],
+  researcher: [
+    'research.export',
+    'education.study',
+  ],
+  student: [
+    'education.study',
+  ],
+};
+
+export function can(role: Role, cap: Capability): boolean {
+  return CAPS[role]?.includes(cap) ?? false;
+}
+
+export function useCan(cap: Capability): boolean {
+  const [role] = useRole();
+  return can(role, cap);
 }

@@ -25,6 +25,7 @@ import MoodPage from "@/pages/Mood";
 import ScreenersPage from "@/pages/Screeners";
 import GlossaryPage from "@/pages/Glossary";
 import ChatPage from "@/pages/Chat";
+import RequireCapability from "@/components/RequireCapability";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -63,15 +64,15 @@ const App = () => (
             <Route path="/categories" element={<Categories />} />
             <Route path="/categories/:slug" element={<Categories />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
-            <Route path="/symptom" element={<SymptomExplorer />} />
+            <Route path="/symptom" element={<RequireCapability cap="diagnostic.symptomMatch"><SymptomExplorer /></RequireCapability>} />
             <Route path="/study" element={<Study />} />
             <Route path="/notes" element={<NotesPage />} />
-            <Route path="/compare" element={<ComparePage />} />
+            <Route path="/compare" element={<RequireCapability cap="diagnostic.differential"><ComparePage /></RequireCapability>} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="/checklist" element={<ChecklistPage />} />
+            <Route path="/checklist" element={<RequireCapability cap="diagnostic.checklist"><ChecklistPage /></RequireCapability>} />
             <Route path="/cases" element={<CasesPage />} />
-            <Route path="/risk" element={<RiskPage />} />
+            <Route path="/risk" element={<RequireCapability cap="diagnostic.risk"><RiskPage /></RequireCapability>} />
             <Route path="/mood" element={<MoodPage />} />
             <Route path="/screeners" element={<ScreenersPage />} />
             <Route path="/glossary" element={<GlossaryPage />} />
