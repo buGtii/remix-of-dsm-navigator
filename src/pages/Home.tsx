@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Search, Brain, BookmarkCheck, LayoutGrid, Sparkles, GraduationCap, NotebookPen, GitCompare, ClipboardCheck, BookOpen, AlertTriangle, Download, MessageCircle, Smile, ClipboardList, BookA } from 'lucide-react';
+import { Search, Brain, BookmarkCheck, LayoutGrid, Sparkles, GraduationCap, NotebookPen, GitCompare, ClipboardCheck, BookOpen, AlertTriangle, Download, MessageCircle, Smile, ClipboardList, BookA, ShieldCheck } from 'lucide-react';
 import { CATEGORIES, DISORDERS } from '@/data/disorders';
 import DisclaimerBanner from '@/components/DisclaimerBanner';
 import DisorderCard from '@/components/DisorderCard';
@@ -44,44 +44,53 @@ export default function Home() {
       <div className="px-5 pt-6 space-y-6">
         <DisclaimerBanner compact />
 
+        {/* Role chip */}
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+          <span>Signed in as <span className="text-foreground font-medium">{meta.label}</span>.</span>
+          <Link to="/settings" className="text-primary font-medium">Change</Link>
+        </div>
+
         {/* Quick actions — role aware */}
         <section className="grid grid-cols-2 gap-3">
-          {role === 'student' && <>
-            <QuickTile to="/study" icon={GraduationCap} title="Study Mode" subtitle="Flashcards & quiz" />
-            <QuickTile to="/cases" icon={BookOpen} title="Case Learning" subtitle="Vignettes" />
-            <QuickTile to="/symptom" icon={Sparkles} title="AI Explorer" subtitle="Symptom mapping" muted />
-            <QuickTile to="/compare" icon={GitCompare} title="Compare" subtitle="Side-by-side" muted />
-          </>}
           {role === 'clinician' && <>
-            <QuickTile to="/checklist" icon={ClipboardCheck} title="DSM Checklist" subtitle="Tick criteria" />
-            <QuickTile to="/risk" icon={AlertTriangle} title="Risk Screen" subtitle="Crisis flags" />
-            <QuickTile to="/compare" icon={GitCompare} title="Differential" subtitle="Compare" muted />
-            <QuickTile to="/notes" icon={NotebookPen} title="Session Notes" subtitle="PDF export" muted />
+            <QuickTile to="/checklist" icon={ClipboardCheck} title="DSM-5 Checklist" subtitle="Criteria matching" />
+            <QuickTile to="/symptom" icon={Sparkles} title="Symptom → Criteria" subtitle="Structured mapping" />
+            <QuickTile to="/compare" icon={GitCompare} title="Differential" subtitle="Side-by-side" />
+            <QuickTile to="/risk" icon={AlertTriangle} title="Risk & Safety" subtitle="Structured flags" />
+            <QuickTile to="/notes" icon={NotebookPen} title="Clinical Notes" subtitle="Documentation" muted />
+            <QuickTile to="/categories" icon={LayoutGrid} title="DSM Library" subtitle={`${CATEGORIES.length} categories`} muted />
+          </>}
+          {role === 'therapist' && <>
+            <QuickTile to="/notes" icon={NotebookPen} title="Case Notes" subtitle="Conceptualization" />
+            <QuickTile to="/categories" icon={LayoutGrid} title="DSM Library" subtitle="Disorder context" />
+            <QuickTile to="/cases" icon={BookOpen} title="Case Studies" subtitle="Therapy vignettes" muted />
+            <QuickTile to="/glossary" icon={BookA} title="Glossary" subtitle="Clinical terms" muted />
           </>}
           {role === 'researcher' && <>
-            <QuickTile to="/categories" icon={LayoutGrid} title="Browse" subtitle={`${CATEGORIES.length} groups`} />
-            <QuickTile to="/compare" icon={GitCompare} title="Compare" subtitle="Up to 3" />
+            <QuickTile to="/categories" icon={LayoutGrid} title="DSM Library" subtitle={`${CATEGORIES.length} groups`} />
             <button onClick={downloadDisorderCsv} className="text-left rounded-2xl border border-border bg-card p-4 shadow-soft transition hover:shadow-elevated">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary"><Download className="h-5 w-5" /></div>
                 <div><div className="font-semibold leading-tight">Export CSV</div><div className="text-[11px] text-primary">Full dataset</div></div>
               </div>
             </button>
-            <QuickTile to="/symptom" icon={Sparkles} title="AI Explorer" subtitle="Semantic" muted />
+            <QuickTile to="/glossary" icon={BookA} title="Glossary" subtitle="Terminology" muted />
+            <QuickTile to="/cases" icon={BookOpen} title="Case Library" subtitle="Vignettes" muted />
           </>}
-          {role === 'patient' && <>
-            <QuickTile to="/symptom" icon={Sparkles} title="Symptom Explorer" subtitle="Plain-language" />
-            <QuickTile to="/risk" icon={AlertTriangle} title="Get Help Now" subtitle="Crisis resources" />
-            <QuickTile to="/categories" icon={LayoutGrid} title="Browse" subtitle="Learn about it" muted />
-            <QuickTile to="/notes" icon={NotebookPen} title="My Notes" subtitle="Private journal" muted />
+          {role === 'student' && <>
+            <QuickTile to="/study" icon={GraduationCap} title="Study Mode" subtitle="Flashcards & quiz" />
+            <QuickTile to="/cases" icon={BookOpen} title="Case Learning" subtitle="Vignettes" />
+            <QuickTile to="/categories" icon={LayoutGrid} title="DSM Library" subtitle="Browse disorders" muted />
+            <QuickTile to="/glossary" icon={BookA} title="Glossary" subtitle="Clinical terms" muted />
           </>}
           <QuickTile to="/bookmarks" icon={BookmarkCheck} title="Saved" subtitle="Your bookmarks" muted />
         </section>
 
         {/* Universal tools — always available */}
-        <Section title="Tools for everyone">
+        <Section title="Educational tools">
           <div className="grid grid-cols-2 gap-3">
-            <QuickTile to="/chat" icon={MessageCircle} title="AI Companion" subtitle="Ask anything" />
+            <QuickTile to="/chat" icon={MessageCircle} title="DSM Q&A" subtitle="Educational chat" />
             <QuickTile to="/screeners" icon={ClipboardList} title="Screeners" subtitle="PHQ-9 · GAD-7 · PCL-5" />
             <QuickTile to="/mood" icon={Smile} title="Mood Journal" subtitle="Daily check-in" muted />
             <QuickTile to="/glossary" icon={BookA} title="Glossary" subtitle="Clinical terms" muted />
