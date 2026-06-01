@@ -11,7 +11,7 @@ const slides = [
   { icon: Users, title: 'Pick your mode', body: 'Tailor the home screen to how you use PsyDx. You can switch any time in Settings.' },
 ];
 
-const ROLES: Role[] = ['student', 'clinician', 'researcher', 'patient'];
+const ROLES: Role[] = ['clinician', 'therapist', 'researcher', 'student'];
 
 export default function Onboarding() {
   const [i, setI] = useState(0);
