@@ -67,7 +67,7 @@ export default function AuthPage() {
     <div className="min-h-screen bg-background flex flex-col">
       <div className="gradient-hero text-primary-foreground px-6 pt-10 pb-12 rounded-b-[2rem]">
         <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] opacity-80">
-          <Brain className="h-3.5 w-3.5" /> PsychRef · DSM-5-TR
+          <Brain className="h-3.5 w-3.5" /> PsyDx · DSM-5
         </div>
         <h1 className="mt-3 font-display text-3xl font-semibold">{mode === 'signin' ? 'Welcome back' : 'Create your account'}</h1>
         <p className="mt-1 text-sm text-primary-foreground/80">Sync bookmarks, notes & study progress across devices.</p>

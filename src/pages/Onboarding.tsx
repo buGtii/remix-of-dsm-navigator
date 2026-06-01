@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { ROLE_META, setRole, type Role } from '@/lib/role';
 
 const slides = [
-  { icon: Brain, title: 'Welcome to PsychRef', body: 'A calm, modern reference for the DSM-5-TR — for clinicians, students, researchers, and curious minds.' },
+  { icon: Brain, title: 'Welcome to PsyDx', body: 'A calm, modern reference for the DSM-5-TR — for clinicians, students, researchers, and curious minds.' },
   { icon: Sparkles, title: 'AI Symptom Explorer', body: 'Describe symptoms in plain language and explore educationally-related disorders. Never a diagnosis.' },
   { icon: GraduationCap, title: 'Study, save, sync', body: 'Spaced-repetition flashcards, private notes, and bookmarks that follow you across devices.' },
-  { icon: Users, title: 'Pick your mode', body: 'Tailor the home screen to how you use PsychRef. You can switch any time in Settings.' },
+  { icon: Users, title: 'Pick your mode', body: 'Tailor the home screen to how you use PsyDx. You can switch any time in Settings.' },
 ];
 
 const ROLES: Role[] = ['student', 'clinician', 'researcher', 'patient'];

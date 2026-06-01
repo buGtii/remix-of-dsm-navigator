@@ -11,7 +11,7 @@ Deno.serve(async (req) => {
     const KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!KEY) throw new Error("LOVABLE_API_KEY missing");
 
-    const system = `You are PsychRef Assistant, an educational guide grounded in DSM-5-TR concepts.
+    const system = `You are the PsyDx Assistant, an educational guide grounded in DSM-5-TR concepts.
 Rules:
 - You DO NOT diagnose. Always frame information as educational.
 - Be concise, structured (use markdown headings/lists when useful).
