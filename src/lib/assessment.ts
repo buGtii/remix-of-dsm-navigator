@@ -77,7 +77,7 @@ export async function createSession(patient_label: string): Promise<AssessmentSe
   if (!u.user) throw new Error('Authentication required');
   const { data, error } = await supabase
     .from('assessment_sessions')
-    .insert({ user_id: u.user.id, patient_label, intake: EMPTY_INTAKE })
+    .insert({ user_id: u.user.id, patient_label, intake: EMPTY_INTAKE as any })
     .select('*')
     .single();
   if (error) throw error;
@@ -85,7 +85,7 @@ export async function createSession(patient_label: string): Promise<AssessmentSe
 }
 
 export async function updateSession(id: string, patch: Partial<AssessmentSession>): Promise<void> {
-  const { error } = await supabase.from('assessment_sessions').update(patch).eq('id', id);
+  const { error } = await supabase.from('assessment_sessions').update(patch as any).eq('id', id);
   if (error) throw error;
 }
 
