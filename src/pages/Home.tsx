@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Search, Brain, BookmarkCheck, LayoutGrid, Sparkles, GraduationCap, NotebookPen, GitCompare, ClipboardCheck, BookOpen, AlertTriangle, Download, MessageCircle, Smile, ClipboardList, BookA, ShieldCheck } from 'lucide-react';
+import { Search, Brain, BookmarkCheck, LayoutGrid, Sparkles, GraduationCap, NotebookPen, GitCompare, ClipboardCheck, BookOpen, AlertTriangle, Download, MessageCircle, Smile, ClipboardList, BookA, ShieldCheck, Stethoscope } from 'lucide-react';
 import { CATEGORIES, DISORDERS } from '@/data/disorders';
 import DisclaimerBanner from '@/components/DisclaimerBanner';
 import DisorderCard from '@/components/DisorderCard';
@@ -54,12 +54,12 @@ export default function Home() {
         {/* Quick actions — role aware */}
         <section className="grid grid-cols-2 gap-3">
           {role === 'clinician' && <>
+            <QuickTile to="/assessment" icon={Stethoscope} title="Assessment Session" subtitle="Structured DSM-5 workflow" />
             <QuickTile to="/checklist" icon={ClipboardCheck} title="DSM-5 Checklist" subtitle="Criteria matching" />
             <QuickTile to="/symptom" icon={Sparkles} title="Symptom → Criteria" subtitle="Structured mapping" />
             <QuickTile to="/compare" icon={GitCompare} title="Differential" subtitle="Side-by-side" />
             <QuickTile to="/risk" icon={AlertTriangle} title="Risk & Safety" subtitle="Structured flags" />
             <QuickTile to="/notes" icon={NotebookPen} title="Clinical Notes" subtitle="Documentation" muted />
-            <QuickTile to="/categories" icon={LayoutGrid} title="DSM Library" subtitle={`${CATEGORIES.length} categories`} muted />
           </>}
           {role === 'therapist' && <>
             <QuickTile to="/notes" icon={NotebookPen} title="Case Notes" subtitle="Conceptualization" />
