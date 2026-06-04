@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      assessment_sessions: {
+        Row: {
+          candidates: Json
+          created_at: string
+          criteria: Json
+          differential: Json
+          id: string
+          impression: string | null
+          intake: Json
+          patient_label: string | null
+          plan: string | null
+          risk: Json
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          candidates?: Json
+          created_at?: string
+          criteria?: Json
+          differential?: Json
+          id?: string
+          impression?: string | null
+          intake?: Json
+          patient_label?: string | null
+          plan?: string | null
+          risk?: Json
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          candidates?: Json
+          created_at?: string
+          criteria?: Json
+          differential?: Json
+          id?: string
+          impression?: string | null
+          intake?: Json
+          patient_label?: string | null
+          plan?: string | null
+          risk?: Json
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       bookmarks: {
         Row: {
           created_at: string

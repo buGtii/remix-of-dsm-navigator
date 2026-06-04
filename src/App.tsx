@@ -25,6 +25,8 @@ import MoodPage from "@/pages/Mood";
 import ScreenersPage from "@/pages/Screeners";
 import GlossaryPage from "@/pages/Glossary";
 import ChatPage from "@/pages/Chat";
+import AssessmentsPage from "@/pages/Assessments";
+import AssessmentSessionPage from "@/pages/AssessmentSession";
 import RequireCapability from "@/components/RequireCapability";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -71,6 +73,9 @@ const App = () => (
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/checklist" element={<RequireCapability cap="diagnostic.checklist"><ChecklistPage /></RequireCapability>} />
+            <Route path="/assessment" element={<RequireCapability cap="diagnostic.checklist"><AssessmentsPage /></RequireCapability>} />
+            <Route path="/assessment/new" element={<RequireCapability cap="diagnostic.checklist"><AssessmentSessionPage /></RequireCapability>} />
+            <Route path="/assessment/:id" element={<RequireCapability cap="diagnostic.checklist"><AssessmentSessionPage /></RequireCapability>} />
             <Route path="/cases" element={<CasesPage />} />
             <Route path="/risk" element={<RequireCapability cap="diagnostic.risk"><RiskPage /></RequireCapability>} />
             <Route path="/mood" element={<MoodPage />} />
