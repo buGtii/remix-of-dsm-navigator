@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 
-export type Role = 'student' | 'clinician' | 'therapist' | 'researcher';
+export type Role = 'student' | 'practitioner' | 'researcher';
 
 export const ROLE_META: Record<Role, { label: string; tagline: string; emoji: string }> = {
-  clinician: { label: 'Clinician', tagline: 'DSM-5 guided assessment & decision support', emoji: '🩺' },
-  therapist: { label: 'Therapist', tagline: 'Case conceptualization & therapy support', emoji: '🧠' },
+  practitioner: { label: 'Practitioner', tagline: 'DSM-5 assessment, differential & clinical support', emoji: '🩺' },
   researcher: { label: 'Researcher', tagline: 'DSM exploration, data & export', emoji: '🔬' },
   student: { label: 'Student', tagline: 'Learn DSM with study tools & cases', emoji: '🎓' },
 };
@@ -13,8 +12,13 @@ const KEY = 'psychref:role';
 
 export function getRole(): Role {
   const raw = (typeof window !== 'undefined' && localStorage.getItem(KEY)) || '';
-  // Backward-compat: legacy 'patient' role maps to 'therapist'.
-  const v = raw === 'patient' ? 'therapist' : (raw as Role);
+  // Backward-compat: legacy 'patient'/'clinician'/'therapist' all map to 'practitioner'.
+  const legacyMap: Record<string, Role> = {
+    patient: 'practitioner',
+    clinician: 'practitioner',
+    therapist: 'practitioner',
+  };
+  const v = (legacyMap[raw] ?? raw) as Role;
   return v && v in ROLE_META ? v : 'student';
 }
 export function setRole(role: Role) {
@@ -50,7 +54,7 @@ export type Capability =
   | 'education.study';           // Study mode / flashcards / cases
 
 const CAPS: Record<Role, Capability[]> = {
-  clinician: [
+  practitioner: [
     'diagnostic.checklist',
     'diagnostic.differential',
     'diagnostic.symptomMatch',
@@ -58,11 +62,6 @@ const CAPS: Record<Role, Capability[]> = {
     'clinical.notes',
     'therapy.caseConcept',
     'research.export',
-    'education.study',
-  ],
-  therapist: [
-    'therapy.caseConcept',
-    'clinical.notes',
     'education.study',
   ],
   researcher: [

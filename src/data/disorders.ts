@@ -36,6 +36,23 @@ export interface Disorder {
   riskFactors?: { biological?: string[]; environmental?: string[]; social?: string[] };
   comorbidities?: string[];
   differentials?: string[];
+  /**
+   * Structured differential diagnosis — DSM-aligned format, paraphrased
+   * (not verbatim DSM-5-TR text). Each entry covers one similar disorder
+   * with key distinguishing features, symptom overlap, and rule-out guidance.
+   */
+  differentialDetailed?: Array<{
+    disorder: string;
+    distinguishing: string;     // Key distinguishing feature(s)
+    overlap?: string;            // Symptom overlap analysis
+    ruleOut?: string;            // DSM rule-out guidance
+  }>;
+  durationCriteria?: string;     // Required duration / time course
+  functionalImpairment?: string; // Functional impairment criterion summary
+  associatedFeatures?: string[]; // Associated features supporting diagnosis
+  specifiers?: string[];         // DSM specifiers (e.g., with anxious distress)
+  clinicalNotes?: string[];      // Clinician-oriented notes
+  ruleOuts?: string[];           // Conditions/causes that must be excluded
   treatments?: { therapies?: string[]; medicationClasses?: string[]; lifestyle?: string[] };
   warnings?: string[];
   relatedIds?: string[];
