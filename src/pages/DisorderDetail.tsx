@@ -165,16 +165,98 @@ export default function DisorderDetail() {
           </Card>
         )}
 
-        {/* Differentials */}
-        {disorder.differentials?.length && (
-          <Card title="Differential diagnoses">
+        {/* Duration & impairment */}
+        {(disorder.durationCriteria || disorder.functionalImpairment) && (
+          <Card title="Duration & functional impairment">
+            {disorder.durationCriteria && (
+              <Block label="Required duration">{disorder.durationCriteria}</Block>
+            )}
+            {disorder.functionalImpairment && (
+              <Block label="Functional impairment">{disorder.functionalImpairment}</Block>
+            )}
+          </Card>
+        )}
+
+        {/* Associated features */}
+        {disorder.associatedFeatures?.length ? (
+          <Card title="Associated features supporting diagnosis">
+            <ul className="space-y-1.5 text-sm">
+              {disorder.associatedFeatures.map((f) => <li key={f}>• {f}</li>)}
+            </ul>
+          </Card>
+        ) : null}
+
+        {/* Specifiers */}
+        {disorder.specifiers?.length ? (
+          <Card title="Specifiers">
             <div className="flex flex-wrap gap-2">
-              {disorder.differentials.map((d) => (
-                <span key={d} className="rounded-full bg-muted px-3 py-1 text-xs">{d}</span>
+              {disorder.specifiers.map((s) => (
+                <span key={s} className="rounded-full bg-primary-soft px-3 py-1 text-xs text-primary">{s}</span>
               ))}
             </div>
           </Card>
+        ) : null}
+
+        {/* Differential diagnosis — DSM-aligned, paraphrased */}
+        {(disorder.differentialDetailed?.length || disorder.differentials?.length) && (
+          <Card title="Differential diagnosis">
+            <p className="-mt-1 mb-3 text-[11px] italic text-muted-foreground">
+              DSM-aligned structure (paraphrased): similar disorders, key distinguishing features,
+              symptom overlap, and rule-out guidance. Final clinical judgment rests with the practitioner.
+            </p>
+            {disorder.differentialDetailed?.length ? (
+              <div className="space-y-3">
+                {disorder.differentialDetailed.map((dd) => (
+                  <div key={dd.disorder} className="rounded-xl border border-border bg-muted/30 p-3">
+                    <div className="font-semibold text-sm" style={{ color: `hsl(${color})` }}>vs. {dd.disorder}</div>
+                    <div className="mt-2 space-y-1.5 text-sm">
+                      <div>
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Distinguishing feature</span>
+                        <p className="mt-0.5 leading-snug">{dd.distinguishing}</p>
+                      </div>
+                      {dd.overlap && (
+                        <div>
+                          <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Symptom overlap</span>
+                          <p className="mt-0.5 leading-snug">{dd.overlap}</p>
+                        </div>
+                      )}
+                      {dd.ruleOut && (
+                        <div>
+                          <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Rule-out guidance</span>
+                          <p className="mt-0.5 leading-snug">{dd.ruleOut}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {disorder.differentials!.map((d) => (
+                  <span key={d} className="rounded-full bg-muted px-3 py-1 text-xs">{d}</span>
+                ))}
+              </div>
+            )}
+          </Card>
         )}
+
+        {/* Rule-outs */}
+        {disorder.ruleOuts?.length ? (
+          <Card title="Rule-out conditions">
+            <ul className="space-y-1.5 text-sm">
+              {disorder.ruleOuts.map((r) => <li key={r}>• {r}</li>)}
+            </ul>
+          </Card>
+        ) : null}
+
+        {/* Clinician notes */}
+        {disorder.clinicalNotes?.length ? (
+          <Card title="Clinical notes">
+            <ul className="space-y-1.5 text-sm">
+              {disorder.clinicalNotes.map((n) => <li key={n}>• {n}</li>)}
+            </ul>
+          </Card>
+        ) : null}
 
         {/* Comorbidities */}
         {disorder.comorbidities?.length && (
