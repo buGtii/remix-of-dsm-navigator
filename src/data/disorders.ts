@@ -36,6 +36,23 @@ export interface Disorder {
   riskFactors?: { biological?: string[]; environmental?: string[]; social?: string[] };
   comorbidities?: string[];
   differentials?: string[];
+  /**
+   * Structured differential diagnosis — DSM-aligned format, paraphrased
+   * (not verbatim DSM-5-TR text). Each entry covers one similar disorder
+   * with key distinguishing features, symptom overlap, and rule-out guidance.
+   */
+  differentialDetailed?: Array<{
+    disorder: string;
+    distinguishing: string;     // Key distinguishing feature(s)
+    overlap?: string;            // Symptom overlap analysis
+    ruleOut?: string;            // DSM rule-out guidance
+  }>;
+  durationCriteria?: string;     // Required duration / time course
+  functionalImpairment?: string; // Functional impairment criterion summary
+  associatedFeatures?: string[]; // Associated features supporting diagnosis
+  specifiers?: string[];         // DSM specifiers (e.g., with anxious distress)
+  clinicalNotes?: string[];      // Clinician-oriented notes
+  ruleOuts?: string[];           // Conditions/causes that must be excluded
   treatments?: { therapies?: string[]; medicationClasses?: string[]; lifestyle?: string[] };
   warnings?: string[];
   relatedIds?: string[];
@@ -100,6 +117,20 @@ export const DISORDERS: Disorder[] = [
     },
     comorbidities: ['Anxiety disorders', 'Substance use disorders', 'Chronic pain'],
     differentials: ['Persistent Depressive Disorder', 'Bipolar Depression', 'Adjustment Disorder', 'Bereavement'],
+    differentialDetailed: [
+      { disorder: 'Bipolar Depression', distinguishing: 'Prior or current manic/hypomanic episode is the defining feature; depression alone never establishes bipolarity.', overlap: 'Depressive phenomenology (anhedonia, neurovegetative symptoms, suicidality) is often indistinguishable cross-sectionally.', ruleOut: 'Obtain a careful lifetime mood history and collateral information before initiating antidepressant monotherapy.' },
+      { disorder: 'Persistent Depressive Disorder', distinguishing: 'Chronic course (≥2 years) of milder depressive symptoms rather than discrete major episodes.', overlap: 'Low mood, low energy, low self-esteem are shared.', ruleOut: 'Both diagnoses may co-occur ("double depression") when MDD episodes punctuate a chronic baseline.' },
+      { disorder: 'Adjustment Disorder with depressed mood', distinguishing: 'Symptoms develop within 3 months of an identifiable stressor and do not meet full MDD threshold.', overlap: 'Sad mood, tearfulness, mild withdrawal.', ruleOut: 'If full MDD criteria are met following a stressor, diagnose MDD rather than adjustment disorder.' },
+      { disorder: 'Normal bereavement / prolonged grief', distinguishing: 'Distress is centered on the loss, comes in waves, and self-esteem is generally preserved.', overlap: 'Sadness, sleep and appetite disruption, social withdrawal.', ruleOut: 'Pervasive worthlessness, suicidal ideation unrelated to the deceased, or psychomotor retardation favor MDD.' },
+      { disorder: 'Substance/medication-induced depressive disorder', distinguishing: 'Symptoms develop during or shortly after intoxication, withdrawal, or exposure to a known depressogenic agent.', overlap: 'Full depressive syndrome can be reproduced.', ruleOut: 'Reassess after sustained abstinence or removal of the agent.' },
+      { disorder: 'Depressive disorder due to another medical condition', distinguishing: 'Direct pathophysiological consequence of a medical illness (e.g., hypothyroidism, stroke, Parkinson disease).', overlap: 'Identical mood symptoms.', ruleOut: 'Screen TSH, B12, and consider neuroimaging where indicated.' },
+    ],
+    durationCriteria: '≥2 weeks of continuous symptoms, most of the day, nearly every day.',
+    functionalImpairment: 'Clinically significant distress or impairment in social, occupational, academic, or other important areas of functioning.',
+    associatedFeatures: ['Tearfulness', 'Irritability (especially in youth)', 'Brooding/rumination', 'Somatic complaints (pain, GI)', 'Reduced libido'],
+    specifiers: ['With anxious distress', 'With mixed features', 'With melancholic features', 'With atypical features', 'With psychotic features', 'With catatonia', 'With peripartum onset', 'With seasonal pattern'],
+    ruleOuts: ['Substance/medication-induced mood symptoms', 'Hypothyroidism / endocrine causes', 'Bipolar disorder (prior mania/hypomania)', 'Psychotic disorder primary'],
+    clinicalNotes: ['Always screen for suicidality and access to means.', 'Document any lifetime hypomania/mania before starting antidepressant monotherapy.', 'Reassess diagnosis if response is partial after 6–8 weeks at adequate dose.'],
     treatments: {
       therapies: ['Cognitive Behavioral Therapy (CBT)', 'Behavioral Activation', 'Interpersonal Therapy'],
       medicationClasses: ['SSRIs', 'SNRIs', 'Atypical antidepressants'],
@@ -198,6 +229,19 @@ export const DISORDERS: Disorder[] = [
       lifestyle: ['Reduce caffeine', 'Regular exercise', 'Sleep hygiene'],
     },
     differentials: ['Panic Disorder', 'Social Anxiety', 'OCD', 'Adjustment Disorder'],
+    differentialDetailed: [
+      { disorder: 'Panic Disorder', distinguishing: 'Discrete, abrupt panic attacks with prominent somatic crescendo rather than diffuse, persistent worry.', overlap: 'Autonomic arousal, anticipatory anxiety.', ruleOut: 'Worry in GAD is broad and future-oriented; worry in PD focuses on having further attacks.' },
+      { disorder: 'Social Anxiety Disorder', distinguishing: 'Fear is specific to scrutiny in social situations.', overlap: 'Anticipatory anxiety, avoidance, somatic tension.', ruleOut: 'If anxiety appears only in social-evaluative contexts, prefer SAD.' },
+      { disorder: 'Obsessive-Compulsive Disorder', distinguishing: 'Worry in OCD is ego-dystonic, repetitive, and tied to compulsive neutralization.', overlap: 'Intrusive thoughts, doubt.', ruleOut: 'Absence of compulsions and ego-syntonic worry favor GAD.' },
+      { disorder: 'Adjustment Disorder with anxiety', distinguishing: 'Identifiable stressor within 3 months; duration limited.', overlap: 'Worry, tension, sleep disruption.', ruleOut: 'Diagnose GAD only when symptoms persist ≥6 months independent of a stressor.' },
+      { disorder: 'Anxiety due to another medical condition', distinguishing: 'Pathophysiological link to medical illness (hyperthyroidism, pheochromocytoma, cardiopulmonary disease).', overlap: 'Restlessness, palpitations, tremor.', ruleOut: 'Targeted medical workup when symptom onset is atypical or new in mid-/late life.' },
+      { disorder: 'Substance-induced anxiety', distinguishing: 'Onset with intoxication or withdrawal (caffeine, stimulants, alcohol/benzodiazepine withdrawal).', overlap: 'Hyperarousal, insomnia, irritability.', ruleOut: 'Reassess after sustained abstinence.' },
+    ],
+    durationCriteria: 'Excessive anxiety and worry occurring more days than not for ≥6 months.',
+    functionalImpairment: 'Causes significant distress or impairment in social, occupational, or other important domains.',
+    associatedFeatures: ['Headaches', 'GI distress', 'Trembling', 'Sweating', 'Exaggerated startle'],
+    ruleOuts: ['Hyperthyroidism', 'Stimulant or caffeine excess', 'Cardiac arrhythmia', 'Substance withdrawal'],
+    clinicalNotes: ['Worry topics in GAD are typically multiple and shifting.', 'Avoid long-term benzodiazepine monotherapy where possible.', 'CBT and SSRIs/SNRIs are first-line.'],
     relatedIds: ['pd', 'sad', 'mdd'],
     keywords: ['anxiety', 'worry', 'always worried', 'tense', 'on edge', 'cant relax', 'gad', 'overthinking'],
   },
@@ -287,6 +331,20 @@ export const DISORDERS: Disorder[] = [
     },
     treatments: { therapies: ['Trauma-focused CBT', 'EMDR', 'Prolonged Exposure'], medicationClasses: ['SSRIs', 'Prazosin (nightmares)'] },
     differentials: ['Acute Stress Disorder', 'Adjustment Disorder', 'Dissociative Disorders'],
+    differentialDetailed: [
+      { disorder: 'Acute Stress Disorder', distinguishing: 'Same symptom domains but duration 3 days–1 month after trauma.', overlap: 'Intrusion, avoidance, arousal, dissociation.', ruleOut: 'If symptoms persist >1 month, transition diagnosis to PTSD.' },
+      { disorder: 'Adjustment Disorder', distinguishing: 'Stressor need not meet Criterion A; symptom pattern does not meet full PTSD criteria.', overlap: 'Distress, sleep disturbance, low mood.', ruleOut: 'Use PTSD when full symptom clusters are present after a qualifying trauma.' },
+      { disorder: 'Major Depressive Disorder', distinguishing: 'No trauma-specific re-experiencing or avoidance.', overlap: 'Anhedonia, sleep disturbance, negative cognitions.', ruleOut: 'Both may co-occur; diagnose both when each is fully met.' },
+      { disorder: 'Panic Disorder', distinguishing: 'Panic attacks are unexpected and not cued by trauma reminders.', overlap: 'Autonomic arousal, fear of recurrence.', ruleOut: 'Trauma-cued reactivity favors PTSD.' },
+      { disorder: 'Dissociative disorders', distinguishing: 'Dissociation is the predominant feature, not embedded in a trauma syndrome.', overlap: 'Depersonalization, derealization, amnesia.', ruleOut: 'Use PTSD dissociative subtype when criteria for PTSD are met.' },
+      { disorder: 'Borderline Personality Disorder', distinguishing: 'Pervasive instability across identity, affect, and relationships predates trauma context.', overlap: 'Hyperreactivity, dissociation, self-destructive behavior.', ruleOut: 'Comorbidity is common; longitudinal pattern guides primary diagnosis.' },
+    ],
+    durationCriteria: 'Symptom duration >1 month following exposure to a qualifying traumatic event.',
+    functionalImpairment: 'Clinically significant distress or impairment in social, occupational, or other important areas.',
+    associatedFeatures: ['Survivor guilt', 'Dissociative symptoms', 'Somatic complaints', 'Anger outbursts'],
+    specifiers: ['With dissociative symptoms (depersonalization or derealization)', 'With delayed expression'],
+    ruleOuts: ['Substance/medication effects', 'Traumatic brain injury without psychiatric criteria', 'Other primary psychiatric disorder'],
+    clinicalNotes: ['Use a validated structured measure (e.g., PCL-5) to track symptoms.', 'Assess suicide risk at every visit.', 'Trauma-focused psychotherapies have the strongest evidence base.'],
     warnings: ['Suicide risk is elevated; assess safety.'],
     relatedIds: ['asd', 'mdd'],
     keywords: ['ptsd', 'trauma', 'flashbacks', 'nightmares', 'cant forget', 'hypervigilant', 'startle'],
@@ -323,6 +381,19 @@ export const DISORDERS: Disorder[] = [
     },
     treatments: { therapies: ['Exposure and Response Prevention (ERP)', 'CBT'], medicationClasses: ['SSRIs (often higher doses)', 'Clomipramine'] },
     differentials: ['Generalized Anxiety', 'OCPD', 'Body Dysmorphic Disorder'],
+    differentialDetailed: [
+      { disorder: 'Generalized Anxiety Disorder', distinguishing: 'Worries in GAD are about real-life concerns and ego-syntonic; OCD obsessions are intrusive and ego-dystonic.', overlap: 'Intrusive cognitions, anxious arousal.', ruleOut: 'Presence of compulsions or mental rituals favors OCD.' },
+      { disorder: 'Obsessive-Compulsive Personality Disorder', distinguishing: 'OCPD is a pervasive, ego-syntonic preoccupation with order, perfectionism, and control — no true obsessions or compulsions.', overlap: 'Rigidity, checking-like behavior.', ruleOut: 'Absence of distressing intrusive thoughts argues against OCD.' },
+      { disorder: 'Body Dysmorphic Disorder', distinguishing: 'Obsessions focus specifically on perceived appearance defects.', overlap: 'Repetitive checking, reassurance seeking.', ruleOut: 'When preoccupation is restricted to appearance, diagnose BDD.' },
+      { disorder: 'Hoarding Disorder', distinguishing: 'Persistent difficulty discarding possessions due to perceived need to save.', overlap: 'Repetitive behaviors, distress when items discarded.', ruleOut: 'Separate diagnosis when hoarding is the dominant feature.' },
+      { disorder: 'Tic disorder', distinguishing: 'Tics are sudden, non-goal-directed motor or vocal acts not preceded by an obsession.', overlap: 'Repetitive behaviors.', ruleOut: 'Premonitory urges without cognitive obsessions favor tic disorder.' },
+    ],
+    durationCriteria: 'Time-consuming (>1 hour/day) or causes clinically significant distress.',
+    functionalImpairment: 'Marked interference with daily routine, occupational, academic, or social functioning.',
+    associatedFeatures: ['Avoidance of triggers', 'Family accommodation', 'Depressive symptoms', 'Insight ranges from good to absent'],
+    specifiers: ['With good or fair insight', 'With poor insight', 'With absent insight/delusional beliefs', 'Tic-related'],
+    ruleOuts: ['Substance-induced (e.g., stimulants)', 'Other medical condition'],
+    clinicalNotes: ['ERP is the first-line psychotherapy; SSRIs often require higher doses than for depression.', 'Assess for family accommodation explicitly.'],
     relatedIds: ['bdd', 'gad'],
     keywords: ['ocd', 'obsessions', 'compulsions', 'intrusive thoughts', 'checking', 'washing', 'rituals', 'cant stop thinking'],
   },

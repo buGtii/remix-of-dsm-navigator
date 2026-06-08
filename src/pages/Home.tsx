@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Search, Brain, BookmarkCheck, LayoutGrid, Sparkles, GraduationCap, NotebookPen, GitCompare, ClipboardCheck, BookOpen, AlertTriangle, Download, MessageCircle, Smile, ClipboardList, BookA, ShieldCheck, Stethoscope } from 'lucide-react';
+import { Search, Brain, BookmarkCheck, LayoutGrid, Sparkles, GraduationCap, NotebookPen, GitCompare, ClipboardCheck, BookOpen, AlertTriangle, Download, MessageCircle, Smile, ClipboardList, BookA, ShieldCheck, Stethoscope, ChevronRight } from 'lucide-react';
 import { CATEGORIES, DISORDERS } from '@/data/disorders';
 import DisclaimerBanner from '@/components/DisclaimerBanner';
 import DisorderCard from '@/components/DisorderCard';
@@ -53,19 +53,13 @@ export default function Home() {
 
         {/* Quick actions — role aware */}
         <section className="grid grid-cols-2 gap-3">
-          {role === 'clinician' && <>
+          {role === 'practitioner' && <>
             <QuickTile to="/assessment" icon={Stethoscope} title="Assessment Session" subtitle="Structured DSM-5 workflow" />
             <QuickTile to="/checklist" icon={ClipboardCheck} title="DSM-5 Checklist" subtitle="Criteria matching" />
             <QuickTile to="/symptom" icon={Sparkles} title="Symptom → Criteria" subtitle="Structured mapping" />
             <QuickTile to="/compare" icon={GitCompare} title="Differential" subtitle="Side-by-side" />
             <QuickTile to="/risk" icon={AlertTriangle} title="Risk & Safety" subtitle="Structured flags" />
             <QuickTile to="/notes" icon={NotebookPen} title="Clinical Notes" subtitle="Documentation" muted />
-          </>}
-          {role === 'therapist' && <>
-            <QuickTile to="/notes" icon={NotebookPen} title="Case Notes" subtitle="Conceptualization" />
-            <QuickTile to="/categories" icon={LayoutGrid} title="DSM Library" subtitle="Disorder context" />
-            <QuickTile to="/cases" icon={BookOpen} title="Case Studies" subtitle="Therapy vignettes" muted />
-            <QuickTile to="/glossary" icon={BookA} title="Glossary" subtitle="Clinical terms" muted />
           </>}
           {role === 'researcher' && <>
             <QuickTile to="/categories" icon={LayoutGrid} title="DSM Library" subtitle={`${CATEGORIES.length} groups`} />
@@ -125,29 +119,48 @@ export default function Home() {
           </Section>
         )}
 
-        {/* Featured categories */}
-        <Section title="DSM-5-TR Categories">
-          <div className="grid grid-cols-2 gap-3">
-            {CATEGORIES.slice(0, 6).map((c) => (
-              <Link
-                key={c.slug}
-                to={`/categories/${c.slug}`}
-                className="rounded-2xl border border-border bg-card p-4 shadow-soft hover:shadow-elevated transition"
-              >
-                <div className="h-2 w-10 rounded-full mb-3" style={{ background: `hsl(${c.colorVar})` }} />
-                <div className="font-display font-semibold leading-tight">{c.name}</div>
-                <div className="mt-1 text-xs text-muted-foreground line-clamp-2">{c.description}</div>
-              </Link>
-            ))}
-          </div>
-        </Section>
-
-        {/* Trending / sample */}
-        <Section title="Featured disorders">
-          <div className="space-y-3">
-            {DISORDERS.slice(0, 4).map((d) => (
-              <DisorderCard key={d.id} disorder={d} />
-            ))}
+        {/* DSM-5 Hub — every disorder, accessible from the front page */}
+        <Section
+          title="DSM-5 Library"
+          action={<Link to="/categories" className="text-xs font-medium text-primary">All categories</Link>}
+        >
+          <p className="-mt-1 mb-3 text-xs text-muted-foreground">
+            {DISORDERS.length} disorders across {CATEGORIES.length} DSM-5-TR groupings — every entry directly accessible.
+          </p>
+          <div className="space-y-4">
+            {CATEGORIES.map((c) => {
+              const items = DISORDERS.filter((d) => d.category === c.slug);
+              if (!items.length) return null;
+              return (
+                <div key={c.slug} className="rounded-2xl border border-border bg-card p-4 shadow-soft">
+                  <Link
+                    to={`/categories/${c.slug}`}
+                    className="flex items-center justify-between gap-2 group"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-8 rounded-full" style={{ background: `hsl(${c.colorVar})` }} />
+                        <span className="font-display font-semibold leading-tight">{c.name}</span>
+                      </div>
+                      <div className="mt-1 text-[11px] text-muted-foreground">{items.length} disorders</div>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition" />
+                  </Link>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {items.map((d) => (
+                      <Link
+                        key={d.id}
+                        to={`/disorder/${d.id}`}
+                        className="rounded-full border border-border bg-background px-2.5 py-1 text-[11px] hover:border-primary hover:text-primary transition"
+                        title={d.name}
+                      >
+                        {d.shortName ?? d.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </Section>
 
