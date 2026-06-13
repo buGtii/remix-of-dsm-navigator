@@ -53,6 +53,27 @@ export interface Disorder {
   specifiers?: string[];         // DSM specifiers (e.g., with anxious distress)
   clinicalNotes?: string[];      // Clinician-oriented notes
   ruleOuts?: string[];           // Conditions/causes that must be excluded
+  /** Course specifiers (e.g., single episode, recurrent, in partial remission). */
+  courseSpecifiers?: string[];
+  /** Developmental considerations across the lifespan. */
+  developmentalConsiderations?: string;
+  /** Cultural considerations affecting presentation, idioms of distress, help-seeking. */
+  culturalConsiderations?: string;
+  /** Gender/sex-related considerations in prevalence, presentation, or course. */
+  genderConsiderations?: string;
+  /** Prognostic factors — temperamental, environmental, genetic/physiological, course modifiers. */
+  prognosticFactors?: {
+    temperamental?: string[];
+    environmental?: string[];
+    geneticPhysiological?: string[];
+    courseModifiers?: string[];
+  };
+  /** Diagnostic markers — labs, imaging, physiologic findings, psychometric measures. */
+  diagnosticMarkers?: string[];
+  /** Suicide / self-harm risk information where applicable. */
+  suicideRisk?: string;
+  /** Functional consequences across major life domains. */
+  functionalConsequences?: string[];
   treatments?: { therapies?: string[]; medicationClasses?: string[]; lifestyle?: string[] };
   warnings?: string[];
   relatedIds?: string[];
@@ -131,6 +152,19 @@ export const DISORDERS: Disorder[] = [
     specifiers: ['With anxious distress', 'With mixed features', 'With melancholic features', 'With atypical features', 'With psychotic features', 'With catatonia', 'With peripartum onset', 'With seasonal pattern'],
     ruleOuts: ['Substance/medication-induced mood symptoms', 'Hypothyroidism / endocrine causes', 'Bipolar disorder (prior mania/hypomania)', 'Psychotic disorder primary'],
     clinicalNotes: ['Always screen for suicidality and access to means.', 'Document any lifetime hypomania/mania before starting antidepressant monotherapy.', 'Reassess diagnosis if response is partial after 6–8 weeks at adequate dose.'],
+    courseSpecifiers: ['Single episode', 'Recurrent', 'In partial remission', 'In full remission', 'Chronic (continuous ≥2 years)'],
+    developmentalConsiderations: 'Children and adolescents more often present with irritability, somatic complaints, or school refusal than overt sadness. Older adults more commonly present with cognitive complaints, somatic preoccupation, and apathy that can mimic neurocognitive disorder ("pseudodementia").',
+    culturalConsiderations: 'Idioms of distress vary widely: somatic emphasis (headache, weakness, "nerves") is common in many cultures and may eclipse mood complaints. Help-seeking pathways, stigma, and the framing of guilt vs. shame influence presentation. Assess in the patient\'s preferred language when possible.',
+    genderConsiderations: 'Lifetime prevalence is roughly 1.5–3× higher in females from adolescence onward. Female-specific course modifiers include premenstrual exacerbation, peripartum onset, and perimenopausal recurrence. Males more often present with irritability, anger, substance use, and complete suicide at higher rates.',
+    prognosticFactors: {
+      temperamental: ['High neuroticism / negative affectivity', 'Early-onset rumination'],
+      environmental: ['Adverse childhood experiences', 'Recent loss or chronic stress', 'Low social support'],
+      geneticPhysiological: ['First-degree relative with MDD (2–4× risk)', 'Chronic medical illness (CVD, diabetes, chronic pain)'],
+      courseModifiers: ['Earlier age at onset predicts longer, more recurrent course', 'Residual symptoms between episodes increase relapse risk', 'Comorbid anxiety or substance use worsens prognosis'],
+    },
+    diagnosticMarkers: ['No diagnostic laboratory test is confirmatory.', 'PHQ-9 supports screening, severity tracking, and treatment monitoring.', 'TSH, B12/folate, CBC, BMP, vitamin D recommended to rule out medical contributors.', 'Polysomnography may show reduced REM latency and slow-wave sleep deficits (research finding, not diagnostic).'],
+    suicideRisk: 'Lifetime suicide risk is markedly elevated; ~50% of suicide decedents had a mood disorder. Assess ideation, intent, plan, access to means, prior attempts, hopelessness, command hallucinations, agitation, recent discharge, and acute losses at every visit. Mixed features, severe insomnia, and comorbid substance use further elevate near-term risk. Safety planning and means restriction are first-line non-pharmacologic interventions.',
+    functionalConsequences: ['Occupational impairment: presenteeism, absenteeism, job loss', 'Academic decline and school dropout in youth', 'Disruption of intimate, parenting, and peer relationships', 'Reduced self-care, medication adherence, and worse outcomes in comorbid medical illness', 'Increased all-cause mortality independent of suicide'],
     treatments: {
       therapies: ['Cognitive Behavioral Therapy (CBT)', 'Behavioral Activation', 'Interpersonal Therapy'],
       medicationClasses: ['SSRIs', 'SNRIs', 'Atypical antidepressants'],
