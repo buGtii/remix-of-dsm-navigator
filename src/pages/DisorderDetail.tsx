@@ -197,6 +197,79 @@ export default function DisorderDetail() {
           </Card>
         ) : null}
 
+        {/* Course specifiers */}
+        {disorder.courseSpecifiers?.length ? (
+          <Card title="Course specifiers">
+            <div className="flex flex-wrap gap-2">
+              {disorder.courseSpecifiers.map((s) => (
+                <span key={s} className="rounded-full bg-muted px-3 py-1 text-xs">{s}</span>
+              ))}
+            </div>
+          </Card>
+        ) : null}
+
+        {/* Developmental / cultural / gender considerations */}
+        {(disorder.developmentalConsiderations || disorder.culturalConsiderations || disorder.genderConsiderations) && (
+          <Card title="Developmental, cultural & gender considerations">
+            {disorder.developmentalConsiderations && <Block label="Developmental">{disorder.developmentalConsiderations}</Block>}
+            {disorder.culturalConsiderations && <Block label="Cultural">{disorder.culturalConsiderations}</Block>}
+            {disorder.genderConsiderations && <Block label="Sex / gender">{disorder.genderConsiderations}</Block>}
+          </Card>
+        )}
+
+        {/* Prognostic factors */}
+        {disorder.prognosticFactors && (
+          <Card title="Prognostic factors">
+            {(['temperamental', 'environmental', 'geneticPhysiological', 'courseModifiers'] as const).map((k) => {
+              const items = disorder.prognosticFactors?.[k];
+              if (!items?.length) return null;
+              const labels: Record<string, string> = {
+                temperamental: 'Temperamental',
+                environmental: 'Environmental',
+                geneticPhysiological: 'Genetic / physiological',
+                courseModifiers: 'Course modifiers',
+              };
+              return (
+                <div key={k} className="border-t border-border first:border-t-0 py-2">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{labels[k]}</div>
+                  <ul className="mt-1 space-y-1 text-sm">
+                    {items.map((i) => <li key={i}>• {i}</li>)}
+                  </ul>
+                </div>
+              );
+            })}
+          </Card>
+        )}
+
+        {/* Diagnostic markers */}
+        {disorder.diagnosticMarkers?.length ? (
+          <Card title="Diagnostic markers">
+            <ul className="space-y-1.5 text-sm">
+              {disorder.diagnosticMarkers.map((m) => <li key={m}>• {m}</li>)}
+            </ul>
+          </Card>
+        ) : null}
+
+        {/* Suicide risk */}
+        {disorder.suicideRisk && (
+          <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-4">
+            <div className="text-xs font-semibold uppercase tracking-wider text-destructive">Suicide risk</div>
+            <p className="mt-2 text-sm leading-relaxed">{disorder.suicideRisk}</p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Crisis support — US: dial or text <span className="font-semibold text-foreground">988</span>.
+            </p>
+          </div>
+        )}
+
+        {/* Functional consequences */}
+        {disorder.functionalConsequences?.length ? (
+          <Card title="Functional consequences">
+            <ul className="space-y-1.5 text-sm">
+              {disorder.functionalConsequences.map((f) => <li key={f}>• {f}</li>)}
+            </ul>
+          </Card>
+        ) : null}
+
         {/* Differential diagnosis — DSM-aligned, paraphrased */}
         {(disorder.differentialDetailed?.length || disorder.differentials?.length) && (
           <Card title="Differential diagnosis">
