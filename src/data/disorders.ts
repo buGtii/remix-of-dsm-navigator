@@ -53,6 +53,27 @@ export interface Disorder {
   specifiers?: string[];         // DSM specifiers (e.g., with anxious distress)
   clinicalNotes?: string[];      // Clinician-oriented notes
   ruleOuts?: string[];           // Conditions/causes that must be excluded
+  /** Course specifiers (e.g., single episode, recurrent, in partial remission). */
+  courseSpecifiers?: string[];
+  /** Developmental considerations across the lifespan. */
+  developmentalConsiderations?: string;
+  /** Cultural considerations affecting presentation, idioms of distress, help-seeking. */
+  culturalConsiderations?: string;
+  /** Gender/sex-related considerations in prevalence, presentation, or course. */
+  genderConsiderations?: string;
+  /** Prognostic factors — temperamental, environmental, genetic/physiological, course modifiers. */
+  prognosticFactors?: {
+    temperamental?: string[];
+    environmental?: string[];
+    geneticPhysiological?: string[];
+    courseModifiers?: string[];
+  };
+  /** Diagnostic markers — labs, imaging, physiologic findings, psychometric measures. */
+  diagnosticMarkers?: string[];
+  /** Suicide / self-harm risk information where applicable. */
+  suicideRisk?: string;
+  /** Functional consequences across major life domains. */
+  functionalConsequences?: string[];
   treatments?: { therapies?: string[]; medicationClasses?: string[]; lifestyle?: string[] };
   warnings?: string[];
   relatedIds?: string[];
