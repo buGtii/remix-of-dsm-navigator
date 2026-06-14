@@ -642,8 +642,16 @@ export const DISORDERS: Disorder[] = [
 ];
 
 import { EXTRA_DISORDERS } from './disorders.generated';
+import { MOOD_BIPOLAR_DISORDERS } from './disorders.moodBipolar';
 
-// Merge seed + generated, deduped by id (seed wins for richer entries).
+// Merge precedence (richest content wins):
+//   chapter modules (e.g., MOOD_BIPOLAR_DISORDERS)  >  inline seed  >  generated
+// Chapter modules override inline seed by id; generated only fills gaps.
+for (const d of MOOD_BIPOLAR_DISORDERS) {
+  const idx = DISORDERS.findIndex((x) => x.id === d.id);
+  if (idx >= 0) DISORDERS[idx] = d;
+  else DISORDERS.push(d);
+}
 const _seen = new Set(DISORDERS.map((d) => d.id));
 for (const d of EXTRA_DISORDERS) {
   if (!_seen.has(d.id)) {
